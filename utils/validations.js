@@ -1,11 +1,11 @@
 
 
 export function nameValidation(name){
-    const nameRegex = /^[a-zA-Z]{5,}$/
+    const nameRegex = /^[a-zA-Z]{3,}$/
     return nameRegex.test(name)
 }
 export function userNameValidation(name){
-    const nameRegex = /^[a-zA-Z0-9]{5,}$/
+    const nameRegex = /^[a-zA-Z0-9]{3,}$/
     return nameRegex.test(name)
 }
 
