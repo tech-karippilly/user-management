@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors'
 import session from 'express-session'
 
+import authRoute  from './routes/auth/index.js'
+
 const app = express()
 
 app.use(cors())
@@ -21,5 +23,8 @@ app.use(session({
 
 app.set('view engine','ejs');
 app.set('views','views')
+
+
+app.use('/api/auth',authRoute)
 
 export default app
