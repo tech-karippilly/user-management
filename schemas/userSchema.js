@@ -55,7 +55,7 @@ userSchema.pre('save',async function (next) {
 })
 
 userSchema.methods.getFullName =function (){
-    return this.fistName + " "+ this.lastName
+    return this.firstName + " "+ this.lastName
 }
 
 userSchema.methods.validatePassword = async function (password) {

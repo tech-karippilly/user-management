@@ -3,6 +3,7 @@ import cors from 'cors'
 import session from 'express-session'
 
 import authRoute  from './routes/auth/index.js'
+import homeRoute from './routes/home/index.js'
 
 const app = express()
 
@@ -26,5 +27,6 @@ app.set('views','views')
 
 
 app.use('/api/auth',authRoute)
+app.use('/api',homeRoute)
 
 export default app

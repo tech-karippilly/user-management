@@ -1,4 +1,5 @@
 import { User } from "../../models/index.js"
+import { getRouteApi } from "../../utils/helperfunction.js"
 import { emailValidation, nameValidation, userNameValidation } from "../../utils/validations.js"
 
 
@@ -20,12 +21,12 @@ async function loginUser(req, res) {
 
             const isMatch = await user.validatePassword(password)
             if (!isMatch) {
-                return res.status(401).render('auth/loginPage', { alertType: 'danger', alertMessage: 'Invalid Credentials', redirectUrl })
+                return res.status(401).render('auth/loginPage', { alertType: 'danger', alertMessage: 'Invalid Credentials', redirectUrl:'' })
             }
 
             req.session.userId = user._id;
 
-            return res.status(200).render('auth/loginPage', { alertType: 'success', alertMessage: 'Login Successfully', redirectUrl: getRedirectUrl(user.role) })
+            return res.status(200).render('auth/loginPage', { alertType: 'success', alertMessage: 'Login Successfully', redirectUrl: getRouteApi(user.role) })
         } catch (error) {
             console.log(error.message)
             return res.status(500).render('auth/loginPage', { alertType: 'danger', alertMessage: 'Error in connection', redirectUrl: '' })
@@ -94,11 +95,23 @@ async function resetPassword(req, res) {
     }
 }
 
+async function logoutUser(req,res){
+    console.log('working')
+    req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          return res.redirect('/api/admin'); 
+        }
+        res.redirect('/api/auth/login'); 
+      });
+}
+
 export {
     loginPage,
     loginUser,
     signUpPage,
     signUpUser,
     forogotPage,
-    resetPassword
+    resetPassword,
+    logoutUser
 }
