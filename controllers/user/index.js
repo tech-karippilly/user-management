@@ -34,7 +34,7 @@ async function createUser(req, res) {
     }
 }
 
-async function updateUser(req,res){
+async function updateUserPage(req,res){
     const userId = req.params.id
     try{
         const user =  await User.findById(userId)
@@ -44,8 +44,44 @@ async function updateUser(req,res){
     }
 }
 
+async function updateUser(req, res) {
+    const { firstName, lastName, userName, userEmail } = req.body
+    try{
+        const employee = await User.findOne({userName:userName})
+        if(!employee){
+            res.status(404).render('user/editPage', { alertMessage:'User Not Found',alertType:'danger' ,redirectUrl:'/api/admin',userDetails:employee})
+         }
+         employee.firstName = firstName;
+         employee.lastName = lastName;
+         employee.userName = userName;
+         employee.email =userEmail;
+         await employee.save();
+         res.status(200).render('user/editPage', { alertMessage:'Updated Successfully',alertType:'success' ,redirectUrl:'/api/admin',userDetails:employee })
+    }catch(error){
+        updatePage.redirectUrl='/api/admin';
+        res.status(500).render('user/editPage', { alertMessage:'error',alertType:'danger' ,redirectUrl:'/api/admin',userDetails:employee })
+    }
+}
+
+async function deleteUser(req, res) {
+    console.log('working')
+    const userId = req.params.id
+    try{
+      const response =   await User.deleteOne({_id: userId})
+      if (response.deletedCount >0){
+        res.status(200).send('Deleted')
+      }else{
+        res.status(400).send('Error in deletion')
+      }
+    }catch(error){
+        res.status(400).send(error.message)
+    }
+}
+
 export{
     createUserPage,
-    createUser,  
-    updateUser
+    createUser,
+    updateUserPage,  
+    updateUser,
+    deleteUser
 }

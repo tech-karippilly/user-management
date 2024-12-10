@@ -61,10 +61,7 @@
                                             <%= employee.firstName %>
                                         </td>
                                         <td class="text-capitalize">
-                                            <a href="/api/admin/viewUser/<%= employee._id %>" class="btn btn-success">
-                                                <i class="fa-regular fa-eye"></i>
-                                            </a>
-                                            <a href="/api/admin/updateUser/<%= employee._id %>" class="btn btn-info">
+                                            <a href="/api/admin/editUser/<%= employee._id %>" class="btn btn-info">
                                                 <i class="fa-regular fa-pen-to-square"></i>
                                             </a>
                                             <a onclick="deleteUser('<%= employee._id %>')" class="btn btn-danger">
@@ -92,6 +89,7 @@
     <script>
         const alertBox = document.getElementById('alert-box')
         function logout() {
+            console.log('working')
             fetch('http://localhost:3000/api/auth/logout', {
                 method: 'GET'
             }).then((response) => {
@@ -101,7 +99,8 @@
         }
 
         function deleteUser(id) {
-            fetch(`http://localhost:3000/api/admin/deleteUser/${id}`, {
+            console.log('id',id)
+            fetch(`http://localhost:3000/api/admin/deletUser/${id}`, {
                 method: 'DELETE'
             }).then((response) => {
                 if (response.ok) {

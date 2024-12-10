@@ -29,7 +29,31 @@ async function adminPage(req,res){
    
 }
 
+
+async function searchUser(req,res){
+    const searchString = req.query.searchString
+    const userId = req.session.userId
+    try{
+        const user = await User.findById(userId)
+        const name = await  user.getFullName()
+
+        const employeeList  = await User.find({$or:[
+            {userName:{$regex:searchString,$options: 'i' }},
+            {email:{$regex:searchString,$options: 'i' }},
+            {firstName:{$regex:searchString,$options: 'i' }},
+            {lastName:{$regex:searchString,$options: 'i' }}
+        ]})
+        res.status(200).render('home/admin',{title:'Admin Page',alertMessage:'',alertType:'',redirectUrl:'',userName:name,employeeList:employeeList})
+    }catch(error){
+        console.error("Error",error.message)
+        res.status(500).render('home/admin',{title:'Admin Page',alertMessage:`${error.message}`,alertType:'danger',redirectUrl:'',userName:'',employeeList:[]})
+        
+    }
+
+}
+
 export {
     userPage,
-    adminPage
+    adminPage,
+    searchUser
 }

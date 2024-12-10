@@ -11,6 +11,8 @@ route.post('/createUser',isLoggedIn,signUpUser)
 route.get('/resetPassword',isLoggedIn,forogotPage)
 route.post('/resetPassword',isLoggedIn,resetPassword)
 
-route.get('/logout',isLoggedIn,logoutUser)
+
+
+route.get('/logout',logoutUser)
 
 export default route
